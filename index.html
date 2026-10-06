@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Data Generator</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            padding: 30px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Weather Data Generator</h1>
+
+<p>Enter City Name</p>
+
+<input id="city" value="Chennai">
+
+<br><br>
+
+<button onclick="getWeather()">
+    Generate Weather Data
+</button>
+
+<pre id="output"></pre>
+
+<script>
+
+async function getWeather() {
+
+    const city = document.getElementById("city").value;
+
+    const apiKey = "c70ba1a38f5d09dd73d19a6e5d1b3761";
+
+    const url =
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    try {
+
+        const response = await fetch(url);
+
+        const data = await response.json();
+
+        document.getElementById("output").textContent =
+        JSON.stringify({
+            City: data.name,
+            Temperature: data.main.temp + " °C",
+            Humidity: data.main.humidity + " %",
+            Weather: data.weather[0].description
+        }, null, 2);
+
+    }
+
+    catch (error) {
+
+        document.getElementById("output").textContent =
+        "Error: " + error;
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
